@@ -1,4 +1,4 @@
-package com.heycode.freshnewzz
+package com.heycode.freshnewzz.models
 
 data class Source(
     val id: Any,
