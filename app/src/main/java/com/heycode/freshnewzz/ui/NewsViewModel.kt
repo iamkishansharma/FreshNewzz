@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.heycode.freshnewzz.models.NewsResponse
 import com.heycode.freshnewzz.repository.NewsRepository
+import com.heycode.freshnewzz.util.Constants.Companion.COUNTRY_CODE
 import com.heycode.freshnewzz.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -17,10 +18,10 @@ class NewsViewModel(
 
     // CHANGE COUNTRY CODE FOR LOCAL NEWS
     init {
-        getBreakingNews("us")
+        getBreakingNews(COUNTRY_CODE)
     }
 
-    fun getBreakingNews(countryCode: String) = viewModelScope.launch {
+    private fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         breakingNews.postValue(Resource.Loading())
         val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
         breakingNews.postValue(handleBreakingNewsResponse((response)))
