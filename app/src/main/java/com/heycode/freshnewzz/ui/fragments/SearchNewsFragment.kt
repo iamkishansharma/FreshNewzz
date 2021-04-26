@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
     lateinit var viewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
-    val TAG = "SearchNewsFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

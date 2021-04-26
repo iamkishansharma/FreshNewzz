@@ -5,24 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/etSearch"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="5dp"
+        android:elevation="10dp"
+        android:padding="5dp"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="Search..."
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchNews"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingBottom="50dp"
         android:clipToPadding="false"
+        android:paddingBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch"
+        app:layout_constraintTop_toBottomOf="@+id/searchCard"
         tools:layout_editor_absoluteX="0dp" />
 
     <ProgressBar
@@ -30,8 +45,8 @@
         style="?attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:background="@android:color/transparent"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
