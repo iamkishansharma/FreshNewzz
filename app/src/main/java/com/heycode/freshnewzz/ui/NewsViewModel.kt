@@ -1,5 +1,6 @@
 package com.heycode.freshnewzz.ui
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
@@ -92,11 +93,11 @@ class NewsViewModel(
     private suspend fun safeBreakingNewsCall(countryCode: String) {
         breakingNews.postValue(Resource.Loading())
         try {
-            if (hasInternetConnection()) {
+            if (!hasInternetConnection()) {
                 val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
                 breakingNews.postValue(handleBreakingNewsResponse((response)))
             } else {
-                breakingNews.postValue(Resource.Error("No internet connection :("))
+                breakingNews.postValue(Resource.Error("No internet connection\n:("))
             }
         } catch (t: Throwable) {
             when (t) {
@@ -109,11 +110,11 @@ class NewsViewModel(
     private suspend fun safeSearchNewsCall(searchQuery: String) {
         searchNews.postValue(Resource.Loading())
         try {
-            if (hasInternetConnection()) {
+            if (!hasInternetConnection()) {
                 val response = newsRepository.getSearchNews(searchQuery, searchNewsPage)
                 searchNews.postValue(handleSearchNewsResponse((response)))
             } else {
-                searchNews.postValue(Resource.Error("No internet connection :("))
+                searchNews.postValue(Resource.Error("No internet connection\n:("))
             }
         } catch (t: Throwable) {
             when (t) {
@@ -123,6 +124,7 @@ class NewsViewModel(
         }
     }
 
+    @SuppressLint("WrongConstant")
     fun hasInternetConnection(): Boolean {
         val connectivityManager =
             getApplication<NewsApplication>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
