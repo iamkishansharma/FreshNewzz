@@ -101,7 +101,7 @@ class NewsViewModel(
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> breakingNews.postValue(Resource.Error("Network failure :("))
+                is IOException -> breakingNews.postValue(Resource.Error("Network failure\n:("))
                 else -> breakingNews.postValue(Resource.Error("Conversion Error !"))
             }
         }
