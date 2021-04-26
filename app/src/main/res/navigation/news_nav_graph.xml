@@ -43,5 +43,9 @@
     <fragment
         android:id="@+id/newsArticleFragment"
         android:name="com.heycode.freshnewzz.ui.fragments.NewsArticleFragment"
-        android:label="NewsArticleFragment" />
+        android:label="NewsArticleFragment" >
+        <argument
+            android:name="article"
+            app:argType="com.heycode.freshnewzz.models.Article" />
+    </fragment>
 </navigation>
