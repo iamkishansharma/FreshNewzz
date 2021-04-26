@@ -12,6 +12,7 @@ import com.heycode.freshnewzz.adapters.NewsAdapter
 import com.heycode.freshnewzz.ui.NewsActivity
 import com.heycode.freshnewzz.ui.NewsViewModel
 import com.heycode.freshnewzz.util.Resource
+import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
 
 class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
@@ -23,6 +24,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as NewsActivity).viewModel
         setupRecyclerView()
+
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("article", it)
