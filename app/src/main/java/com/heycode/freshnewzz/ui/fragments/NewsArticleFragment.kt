@@ -23,6 +23,7 @@ class NewsArticleFragment : Fragment(R.layout.fragment_article) {
         webView.apply {
             webViewClient = WebViewClient()
             loadUrl(article.url)
+            settings.javaScriptEnabled = true
         }
         fab.setOnClickListener {
             viewModel.saveArticle(article)
