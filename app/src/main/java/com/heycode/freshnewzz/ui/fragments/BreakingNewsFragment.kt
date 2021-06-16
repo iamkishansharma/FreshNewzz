@@ -2,8 +2,7 @@ package com.heycode.freshnewzz.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AbsListView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -13,19 +12,23 @@ import com.heycode.freshnewzz.R
 import com.heycode.freshnewzz.adapters.NewsAdapter
 import com.heycode.freshnewzz.ui.NewsActivity
 import com.heycode.freshnewzz.ui.NewsViewModel
+import com.heycode.freshnewzz.util.Constants
 import com.heycode.freshnewzz.util.Constants.Companion.COUNTRY_CODE
 import com.heycode.freshnewzz.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.heycode.freshnewzz.util.Resource
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
 
+
 class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     lateinit var viewModel: NewsViewModel
-    lateinit var newsAdapter: NewsAdapter
+    private var newsAdapter: NewsAdapter = NewsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         viewModel = (activity as NewsActivity).viewModel
-        setupRecyclerView()
+        setupRecyclerView(newsAdapter)
 
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -36,6 +39,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                 bundle
             )
         }
+
         viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
@@ -63,6 +67,45 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
             }
 
         })
+
+
+        //setting spinner
+        val spinner: Spinner = requireActivity().findViewById(R.id.country_spinner)
+
+        spinner.setSelection(
+            (spinner.adapter as ArrayAdapter<String>).getPosition(
+                Constants.sharedPreferences.getString(
+                    COUNTRY_CODE,
+                    COUNTRY_CODE
+                )
+            )
+        )
+
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                Constants.sharedPreferences.edit()
+                    .putString(COUNTRY_CODE, spinner.selectedItem.toString())
+                    .apply()
+
+                // Loading first data
+                Constants.sharedPreferences.getString(COUNTRY_CODE, " ")
+                    ?.let { viewModel.getBreakingNews(it) }
+
+                if (spinner.selectedItem.toString() != Constants.sharedPreferences.getString(
+                        COUNTRY_CODE, " "
+                    )
+                ) {
+                    Toast.makeText(requireContext(), "Updated data!", Toast.LENGTH_LONG).show()
+                    requireActivity().recreate()
+                }
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                //Nothing to do
+            }
+        }
     }
 
     private fun hideProgressBar() {
@@ -102,18 +145,21 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                 isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
 
             if (shouldPaginate) {
-                viewModel.getBreakingNews(COUNTRY_CODE)
+                Constants.sharedPreferences.getString(COUNTRY_CODE, COUNTRY_CODE)
+                    ?.let { viewModel.getBreakingNews(it) }
                 isScrolling = false
             }
         }
+
     }
 
-    private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter()
+
+    private fun setupRecyclerView(newsAdapter: NewsAdapter) {
         rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@BreakingNewsFragment.scrollListener)
         }
     }
+
 }

@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Fresh Newzz</string>
+    <string-array name="countries">
+        <item>us</item><!-- United States -->
+        <item>ca</item><!-- Canada -->
+        <item>gb</item><!-- United Kingdom -->
+        <item>in</item><!-- India -->
+        <item>cn</item><!-- China -->
+        <item>ae</item><!-- UAE -->
+        <item>jp</item><!-- Japan -->
+        <item>ru</item><!-- Russia -->
+        <item>au</item><!-- Australia -->
+        <item>de</item><!-- Germany -->
+        <item>nz</item><!-- New Zealand -->
+        <item>kr</item><!-- South Korea -->
+        <item>sg</item><!-- Singapore -->
+    </string-array>
 </resources>

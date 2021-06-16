@@ -14,6 +14,7 @@ import com.heycode.freshnewzz.NewsApplication
 import com.heycode.freshnewzz.models.Article
 import com.heycode.freshnewzz.models.NewsResponse
 import com.heycode.freshnewzz.repository.NewsRepository
+import com.heycode.freshnewzz.util.Constants
 import com.heycode.freshnewzz.util.Constants.Companion.COUNTRY_CODE
 import com.heycode.freshnewzz.util.Resource
 import kotlinx.coroutines.launch
@@ -34,9 +35,12 @@ class NewsViewModel(
 
 
     // CHANGE COUNTRY CODE FOR LOCAL NEWS
-    init {
-        getBreakingNews(COUNTRY_CODE)
-    }
+    // COUNTRY CODE IN COMING FROM SHARED PREFERENCES
+//    init {
+//        Constants.sharedPreferences.getString(COUNTRY_CODE, COUNTRY_CODE)
+//            ?.let { getBreakingNews(it) }
+////        getBreakingNews(COUNTRY_CODE)
+//    }
 
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         safeBreakingNewsCall(countryCode)
@@ -97,11 +101,11 @@ class NewsViewModel(
                 val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
                 breakingNews.postValue(handleBreakingNewsResponse((response)))
             } else {
-                breakingNews.postValue(Resource.Error("No internet connection\n:("))
+                breakingNews.postValue(Resource.Error("No internet connection :("))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> breakingNews.postValue(Resource.Error("Network failure\n:("))
+                is IOException -> breakingNews.postValue(Resource.Error("Network failure :("))
                 else -> breakingNews.postValue(Resource.Error("Conversion Error !"))
             }
         }
@@ -114,7 +118,7 @@ class NewsViewModel(
                 val response = newsRepository.getSearchNews(searchQuery, searchNewsPage)
                 searchNews.postValue(handleSearchNewsResponse((response)))
             } else {
-                searchNews.postValue(Resource.Error("No internet connection\n:("))
+                searchNews.postValue(Resource.Error("No internet connection :("))
             }
         } catch (t: Throwable) {
             when (t) {
