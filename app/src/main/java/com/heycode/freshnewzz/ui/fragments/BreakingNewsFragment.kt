@@ -87,6 +87,8 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                 Constants.sharedPreferences.edit()
                     .putString(COUNTRY_CODE, spinner.selectedItem.toString())
                     .apply()
+                (p1 as TextView).setTextColor(resources.getColor(android.R.color.holo_blue_bright))
+                (p1 as TextView).textSize = 15f
 
                 // Loading first data
                 Constants.sharedPreferences.getString(COUNTRY_CODE, " ")
